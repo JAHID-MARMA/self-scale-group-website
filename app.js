@@ -90,7 +90,21 @@ function supabaseReady() {
          SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
 }
 
+/* One Supabase client (supabase-js v2, CDN) shared by the contact
+   form and the account/auth features below. */
+const supabaseClient = (supabaseReady() && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
 async function sendToSupabase({ name, email, message }) {
+  if (supabaseClient) {
+    const { error } = await supabaseClient
+      .from("website_messages")
+      .insert({ name, email, message });
+    if (error) throw new Error("Supabase insert failed: " + error.message);
+    return;
+  }
+  /* Fallback if the CDN library failed to load: plain REST insert. */
   const res = await fetch(`${SUPABASE_URL}/rest/v1/website_messages`, {
     method: "POST",
     headers: {
@@ -167,7 +181,132 @@ async function sendToSupabase({ name, email, message }) {
 })();
 
 /* ============================================================
-   3) UI HELPERS — year, mobile nav (aria), scroll reveal
+   3) ACCOUNT — real Supabase Auth (email + password)
+   ============================================================ */
+(function wireAuth() {
+  const form = document.getElementById("authForm");
+  if (!form) return;
+  const emailEl = document.getElementById("authEmail");
+  const passEl = document.getElementById("authPassword");
+  const signUpBtn = document.getElementById("signUpBtn");
+  const logInBtn = document.getElementById("logInBtn");
+  const logOutBtn = document.getElementById("logOutBtn");
+  const loggedOutBox = document.getElementById("authLoggedOut");
+  const loggedInBox = document.getElementById("authLoggedIn");
+  const userEmailEl = document.getElementById("authUserEmail");
+  const note = document.getElementById("authNote");
+
+  function say(message, kind) {
+    note.textContent = message;
+    note.className = "form-note" + (kind ? " " + kind : "");
+  }
+
+  function render(session) {
+    const user = session && session.user ? session.user : null;
+    loggedOutBox.hidden = !!user;
+    loggedInBox.hidden = !user;
+    userEmailEl.textContent = user ? (user.email || "") : "";
+  }
+
+  if (!supabaseClient) {
+    say("Accounts are not available right now. Please use the contact form below or email us and we will help you.", "warn");
+    signUpBtn.disabled = true;
+    logInBtn.disabled = true;
+    render(null);
+    return;
+  }
+
+  function mark(field, bad) {
+    if (bad) field.setAttribute("aria-invalid", "true");
+    else field.removeAttribute("aria-invalid");
+    return !bad;
+  }
+  [emailEl, passEl].forEach(f => f.addEventListener("input", () => f.removeAttribute("aria-invalid")));
+
+  function readCredentials() {
+    const email = emailEl.value.trim();
+    const password = passEl.value;
+    const okEmail = mark(emailEl, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
+    const okPass = mark(passEl, !password);
+    if (!(okEmail && okPass)) {
+      say("Please enter a valid email address and your password.", "err");
+      (!okEmail ? emailEl : passEl).focus();
+      return null;
+    }
+    return { email, password };
+  }
+
+  function setBusy(busy) {
+    signUpBtn.disabled = busy;
+    logInBtn.disabled = busy;
+    signUpBtn.textContent = busy ? "Please wait…" : "Sign Up";
+    logInBtn.textContent = busy ? "Please wait…" : "Log In";
+  }
+
+  async function doSignUp() {
+    const creds = readCredentials();
+    if (!creds) return;
+    setBusy(true);
+    try {
+      const { data, error } = await supabaseClient.auth.signUp(creds);
+      if (error) { say(error.message, "err"); return; }
+      if (data && data.session) {
+        say("Your account is created and you are logged in as " + creds.email + ".", "ok");
+      } else {
+        say("Check your email to confirm your account.", "ok");
+      }
+    } catch (e) {
+      say("Sign up failed just now. Please check your connection and try again.", "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function doLogIn() {
+    const creds = readCredentials();
+    if (!creds) return;
+    setBusy(true);
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword(creds);
+      if (error) { say(error.message, "err"); return; }
+      say("Welcome back — you are logged in as " + (data.user ? data.user.email : creds.email) + ".", "ok");
+      passEl.value = "";
+    } catch (e) {
+      say("Log in failed just now. Please check your connection and try again.", "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function doLogOut() {
+    logOutBtn.disabled = true;
+    try {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) { say(error.message, "err"); return; }
+      say("You are logged out.", "");
+      passEl.value = "";
+    } catch (e) {
+      say("Log out failed just now. Please try again.", "err");
+    } finally {
+      logOutBtn.disabled = false;
+    }
+  }
+
+  signUpBtn.addEventListener("click", doSignUp);
+  logInBtn.addEventListener("click", doLogIn);
+  logOutBtn.addEventListener("click", doLogOut);
+  /* Pressing Enter in the form logs in. */
+  form.addEventListener("submit", (ev) => { ev.preventDefault(); doLogIn(); });
+
+  /* Restore any existing session, then keep the UI in sync. */
+  supabaseClient.auth.getSession()
+    .then(({ data }) => render(data ? data.session : null))
+    .catch(() => render(null));
+  supabaseClient.auth.onAuthStateChange((_event, session) => render(session));
+})();
+
+/* ============================================================
+   4) UI HELPERS — year, mobile nav (aria), scroll reveal
    ============================================================ */
 (function ui() {
   const yr = document.getElementById("yr");
