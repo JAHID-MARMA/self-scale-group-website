@@ -80,8 +80,8 @@ const TEAM = [
    No real keys are stored in this repository until the CEO
    pastes them here.
    ============================================================ */
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";   // ← paste your Project URL
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";       // ← paste your anon public key
+const SUPABASE_URL = "https://npgmkmewyjnqvzqmmppd.supabase.co";   // ← paste your Project URL
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wZ21rbWV3eWpucXZ6cW1tcHBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyOTk5NDcsImV4cCI6MjEwNjg3NTk0N30.b5x5MC1dBR2pKRhxyg06SMNGhRwHDP48dqfJ3xjaXt4";       // ← paste your anon public key
 const CONTACT_FALLBACK_EMAIL = "jahid.chairman.ssg@gmail.com";
 
 function supabaseReady() {
