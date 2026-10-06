@@ -1,11 +1,10 @@
-/* ============================================================
-   Self Scale Group — website app
-   1) Team directory (official, public)
-   2) Contact form → Supabase-ready (see CONFIG BLOCK below)
-   3) Small UI helpers (mobile nav, reveal, year)
-   ============================================================ */
+/* Self Scale Group — website app */
+document.documentElement.classList.add("js");
 
-/* ---------- 1) TEAM DIRECTORY ---------- */
+/* ============================================================
+   1) TEAM DIRECTORY (official public directory — do not edit
+      names, roles or emails without Founder approval)
+   ============================================================ */
 const TEAM = [
   { img: "maheer",  name: "Maheer Qureshi",     role: "Chief Graphic Designer & Art Director", email: "maheer.designer.ssg@gmail.com" },
   { img: "tahmeed", name: "Tahmeed Rahman",     role: "Head of Teaching Content",              email: "tahmeed.teaching.ssg@gmail.com" },
@@ -29,18 +28,45 @@ const TEAM = [
   const grid = document.getElementById("teamGrid");
   if (!grid) return;
   grid.innerHTML = TEAM.map(m => `
-    <article class="member reveal">
-      <img src="assets/photos/${m.img}.jpg" alt="${m.name}, ${m.role} at Self Scale Group" loading="lazy">
+    <article class="member reveal" data-search="${(m.name + " " + m.role).toLowerCase()}">
+      <img src="assets/photos/${m.img}.jpg" alt="Portrait of ${m.name}, ${m.role} at Self Scale Group" loading="lazy" decoding="async">
       <div class="member-body">
         <h3>${m.name}</h3>
-        <div class="mrole">${m.role}</div>
+        <p class="mrole">${m.role}</p>
         <a class="mail" href="mailto:${m.email}">${m.email}</a>
       </div>
     </article>`).join("");
+
+  /* simple name/role search */
+  const input = document.getElementById("teamSearch");
+  const count = document.getElementById("teamCount");
+  const empty = document.getElementById("teamEmpty");
+  const clear = document.getElementById("teamClear");
+  const cards = Array.from(grid.querySelectorAll(".member"));
+  function applyFilter() {
+    const q = (input.value || "").trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(c => {
+      const hit = !q || c.dataset.search.includes(q);
+      c.hidden = !hit;
+      if (hit) shown++;
+    });
+    count.textContent = q
+      ? shown + " of " + TEAM.length + " department leads"
+      : TEAM.length + " department leads";
+    empty.hidden = shown !== 0;
+  }
+  if (input) {
+    input.addEventListener("input", applyFilter);
+    applyFilter();
+  }
+  if (clear) clear.addEventListener("click", () => { input.value = ""; applyFilter(); input.focus(); });
 })();
 
 /* ============================================================
-   2) SUPABASE CONFIG BLOCK  ★ FILL THESE TWO VALUES TO GO LIVE ★
+   2) CONTACT FORM → SUPABASE
+   ------------------------------------------------------------
+   ★★★  SUPABASE CONFIG BLOCK — FILL THESE TWO VALUES  ★★★
    ------------------------------------------------------------
    After creating your Supabase project and running
    supabase/schema.sql, paste your project values here:
@@ -48,9 +74,11 @@ const TEAM = [
      SUPABASE_URL      →  Project Settings → API → Project URL
      SUPABASE_ANON_KEY →  Project Settings → API → anon public key
 
-   While they hold the placeholder text below, the form falls
-   back to opening the visitor's email app (mailto). No real
-   keys are stored in this repository.
+   While the sample values below are unchanged, the site is
+   HONEST about it: the form states it is not connected yet and
+   offers the contact email instead. It never fakes a success.
+   No real keys are stored in this repository until the CEO
+   pastes them here.
    ============================================================ */
 const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";   // ← paste your Project URL
 const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";       // ← paste your anon public key
@@ -81,54 +109,98 @@ async function sendToSupabase({ name, email, message }) {
   if (!form) return;
   const note = document.getElementById("formNote");
   const btn = document.getElementById("sendBtn");
+  const fName = document.getElementById("fName");
+  const fEmail = document.getElementById("fEmail");
+  const fMsg = document.getElementById("fMsg");
+
+  function notConnectedNotice() {
+    note.className = "form-note warn";
+    note.innerHTML = "This online form is not connected yet — your message cannot be sent from here right now. " +
+      'Please email us at <a href="mailto:' + CONTACT_FALLBACK_EMAIL + '">' + CONTACT_FALLBACK_EMAIL + "</a> and we will reply.";
+  }
+
+  /* Be honest from the start when Supabase is not configured. */
+  if (!supabaseReady()) notConnectedNotice();
+
+  function mark(field, bad) {
+    if (bad) field.setAttribute("aria-invalid", "true");
+    else field.removeAttribute("aria-invalid");
+    return !bad;
+  }
+
   form.addEventListener("submit", async (ev) => {
     ev.preventDefault();
-    const name = document.getElementById("fName").value.trim();
-    const email = document.getElementById("fEmail").value.trim();
-    const message = document.getElementById("fMsg").value.trim();
-    if (!name || !email || !message || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      note.textContent = "Please fill in your name, a valid email, and your message.";
+    const name = fName.value.trim();
+    const email = fEmail.value.trim();
+    const message = fMsg.value.trim();
+
+    const okName = mark(fName, !name);
+    const okEmail = mark(fEmail, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
+    const okMsg = mark(fMsg, !message);
+    if (!(okName && okEmail && okMsg)) {
+      note.textContent = "Please add your name, a valid email address, and a short message — all three are needed so we can reply.";
       note.className = "form-note err";
+      ( !okName ? fName : !okEmail ? fEmail : fMsg ).focus();
       return;
     }
-    if (supabaseReady()) {
-      btn.disabled = true; btn.textContent = "Sending…";
-      try {
-        await sendToSupabase({ name, email, message });
-        note.textContent = "✅ Thank you, " + name.split(" ")[0] + ". Your message has been received. We will reply to " + email + ".";
-        note.className = "form-note ok";
-        form.reset();
-      } catch (e) {
-        note.textContent = "Sorry — sending failed just now. Please email us directly at " + CONTACT_FALLBACK_EMAIL + ".";
-        note.className = "form-note err";
-      } finally {
-        btn.disabled = false; btn.textContent = "Send Message";
-      }
-    } else {
-      // Fallback (no Supabase configured yet): open the visitor's email app.
-      const subject = encodeURIComponent("Website message from " + name);
-      const body = encodeURIComponent(message + "\n\n— " + name + " (" + email + ")");
-      window.location.href = `mailto:${CONTACT_FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
-      note.textContent = "Opening your email app to send the message to " + CONTACT_FALLBACK_EMAIL + "…";
+
+    if (!supabaseReady()) { notConnectedNotice(); return; }
+
+    btn.disabled = true;
+    const original = btn.textContent;
+    btn.textContent = "Sending…";
+    try {
+      await sendToSupabase({ name, email, message });
+      note.textContent = "Thank you, " + name.split(" ")[0] + ". Your message has been received. We will reply to " + email + ".";
       note.className = "form-note ok";
+      form.reset();
+    } catch (e) {
+      note.textContent = "Sorry — sending failed just now. Please email us directly at " + CONTACT_FALLBACK_EMAIL + ".";
+      note.className = "form-note err";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
     }
   });
+
+  [fName, fEmail, fMsg].forEach(f => f.addEventListener("input", () => f.removeAttribute("aria-invalid")));
 })();
 
-/* ---------- 3) UI HELPERS ---------- */
+/* ============================================================
+   3) UI HELPERS — year, mobile nav (aria), scroll reveal
+   ============================================================ */
 (function ui() {
   const yr = document.getElementById("yr");
   if (yr) yr.textContent = new Date().getFullYear();
 
   const toggle = document.getElementById("navToggle");
-  const links = document.getElementById("navLinks");
+  const links = document.getElementById("primaryNav");
   if (toggle && links) {
-    toggle.addEventListener("click", () => links.classList.toggle("open"));
-    links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => links.classList.remove("open")));
+    const setOpen = (open) => {
+      links.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+    toggle.addEventListener("click", () =>
+      setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    links.querySelectorAll("a").forEach(a =>
+      a.addEventListener("click", () => setOpen(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && links.classList.contains("open")) {
+        setOpen(false); toggle.focus();
+      }
+    });
   }
 
-  const io = ("IntersectionObserver" in window) ? new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
-  }, { threshold: 0.08 }) : null;
-  document.querySelectorAll(".reveal").forEach(el => io ? io.observe(el) : el.classList.add("on"));
+  /* Reveal on scroll — content is visible if JS/IO is unavailable. */
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealEls = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    revealEls.forEach(el => el.classList.add("on"));
+  } else {
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: "0px 0px -4% 0px" });
+    revealEls.forEach(el => io.observe(el));
+  }
 })();

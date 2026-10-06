@@ -3,21 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Self Scale Group — AI-Native Company | Education, Software, Media & Marketing</title>
+<title>Self Scale Group — AI-Native Company | Education, Software, Media &amp; Marketing</title>
 <meta name="description" content="Self Scale Group is an AI-native company founded by Muhammad Jahid Hasan (KSM JAHID): education products and teaching services, office document services, design, social media and video, app and software development, and marketing.">
+<meta name="theme-color" content="#0a1a38">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a1a38'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23f4c542' font-family='Arial' font-weight='bold'>S</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a1a38'/><rect x='18' y='58' width='16' height='26' rx='3' fill='%23f4c542'/><rect x='42' y='42' width='16' height='42' rx='3' fill='%23f4c542'/><rect x='66' y='24' width='16' height='60' rx='3' fill='%23f4c542'/></svg>">
 </head>
 <body>
 
-<header class="nav" id="top">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="site-header">
   <div class="nav-in">
-    <a class="brand" href="#top"><span class="brand-mark">S</span><span>Self Scale <b>Group</b></span></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
-    <nav class="nav-links" id="navLinks">
+    <a class="brand" href="#top" aria-label="Self Scale Group — back to top">
+      <span class="brand-mark" aria-hidden="true">
+        <img class="brand-logo" src="assets/logo-original.jpg" alt="" width="42" height="42">
+      </span>
+      <span class="brand-text">Self&nbsp;Scale <b>Group</b></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <svg class="ic-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="ic-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <nav class="nav-links" id="primaryNav" aria-label="Primary">
       <a href="#about">About</a>
       <a href="#leadership">Leadership</a>
       <a href="#team">Team</a>
@@ -27,71 +39,98 @@
   </div>
 </header>
 
+<main id="main">
+
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero-in">
     <div class="hero-text">
-      <div class="eyebrow">AI-NATIVE · FOUNDER-LED · BANGLADESH → THE WORLD</div>
-      <h1>Self Scale <span class="gold">Group</span></h1>
-      <p class="lead">An AI-native company building practical value in <b>education, AI, software and media</b> — teaching products and services, professional documents, design and video, apps, and honest marketing. Real work, checked by humans, delivered with care.</p>
+      <p class="eyebrow">AI-Native · Founder-Led · Bangladesh → The World</p>
+      <h1 id="hero-title">Self Scale <span class="gold">Group</span></h1>
+      <p class="lead">An AI-native company building practical value in <strong>education, AI, software and media</strong> — teaching products and services, professional documents, design and video, apps, and honest marketing. Real work, checked by humans, delivered with care.</p>
       <div class="hero-btns">
-        <a class="btn gold-btn" href="#services">Explore Our Services</a>
-        <a class="btn ghost-btn" href="#team">Meet the Team</a>
+        <a class="btn btn-gold" href="#services">Explore Our Services</a>
+        <a class="btn btn-ghost" href="#team">Meet the Team</a>
       </div>
-      <div class="hero-stats">
-        <div><b>18</b><span>Leadership &amp; department leads</span></div>
-        <div><b>6</b><span>Service lines</span></div>
-        <div><b>1</b><span>Standard: verified quality</span></div>
-      </div>
+      <dl class="hero-facts">
+        <div><dt>18</dt><dd>Leadership &amp; department leads</dd></div>
+        <div><dt>6</dt><dd>Service lines</dd></div>
+        <div><dt>1</dt><dd>Standard: verified quality</dd></div>
+      </dl>
     </div>
-    <div class="hero-photo">
-      <img src="assets/photos/founder.jpg" alt="Muhammad Jahid Hasan, Founder & Chairman of Self Scale Group">
-      <div class="hero-card">
+    <figure class="hero-photo">
+      <img src="assets/photos/founder.jpg" alt="Portrait of Muhammad Jahid Hasan, Founder &amp; Chairman of Self Scale Group" fetchpriority="high">
+      <figcaption class="hero-card">
         <b>Muhammad Jahid Hasan</b>
         <span>Founder &amp; Chairman</span>
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section class="section" id="about">
+<section class="section" id="about" aria-labelledby="about-title">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">ABOUT US</div><h2>One company. Many crafts. <span class="gold">One standard.</span></h2></div>
+    <div class="sec-head reveal">
+      <p class="eyebrow">About Us</p>
+      <h2 id="about-title">One company. Many crafts. <span class="gold">One standard.</span></h2>
+    </div>
+    <div class="brand-logo-row reveal">
+      <img class="brand-logo-big" src="assets/logo-original.jpg" alt="Self Scale Academy logo — the original logo of the founder's academy, part of Self Scale Group" width="160" height="160" loading="lazy">
+      <p class="brand-logo-cap">Our academy carries the original <strong>Self Scale Academy</strong> logo — kept exactly as the Founder gave it.</p>
+    </div>
     <div class="about-grid">
-      <div class="about-copy">
-        <p><b>Self Scale Group</b> is an AI-native, founder-led company. The Founder sets the destination; our Group CEO and department leads turn it into organised, checked, delivered work. We start where trust is strongest — education — and build outward into documents, media, software and marketing.</p>
+      <div class="about-copy reveal">
+        <p><strong>Self Scale Group</strong> is an AI-native, founder-led company. The Founder sets the destination; our Group CEO and department leads turn it into organised, checked, delivered work. We start where trust is strongest — education — and build outward into documents, media, software and marketing.</p>
         <p>Every deliverable passes a human quality check before it reaches a client. We do not claim results we have not verified, and we do not sell what we cannot deliver well.</p>
+        <ol class="gate-steps" aria-label="Our quality gate">
+          <li>Work order</li><li>Build</li><li>Peer check</li><li>Quality audit</li><li>CEO gate</li><li>Client</li>
+        </ol>
       </div>
-      <div class="about-points">
-        <div class="point"><b>🎓 Education first</b><span>Exam services, teaching content, courses and practice software for schools, coaching centres and students.</span></div>
-        <div class="point"><b>🤖 AI-native team</b><span>Named department leads for design, teaching, office work, video, apps, marketing, finance, quality and more — coordinated by the Group CEO.</span></div>
-        <div class="point"><b>✔ Checked before delivered</b><span>Work order → build → peer check → quality audit → CEO gate → client. Nothing skips the gate.</span></div>
-        <div class="point"><b>🌍 Built to serve widely</b><span>From Jamalpur, Bangladesh, serving clients locally and online, anywhere.</span></div>
-      </div>
+      <ul class="about-points reveal">
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M2.5 9.2 12 4.5l9.5 4.7L12 13.9z"/><path d="M6 11.3v4.9c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.9"/><path d="M21.5 9.2v5.3"/></svg></span>
+          <div><b>Education first</b><span>Exam services, teaching content, courses and practice software for schools, coaching centres and students.</span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 2.5V6M14.5 2.5V6M9.5 18v3.5M14.5 18v3.5M2.5 9.5H6M2.5 14.5H6M18 9.5h3.5M18 14.5h3.5"/></svg></span>
+          <div><b>AI-native team</b><span>Named department leads for design, teaching, office work, video, apps, marketing, finance, quality and more — coordinated by the Group CEO.</span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 2.8v6.1c0 4.4-2.9 7.4-7 9.1-4.1-1.7-7-4.7-7-9.1V5.8z"/><path d="M9 11.8l2.1 2.1 4-4.2"/></svg></span>
+          <div><b>Checked before delivered</b><span>Work order → build → peer check → quality audit → CEO gate → client. Nothing skips the gate.</span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.8"/><path d="M3.2 12h17.6M12 3.2c2.4 2.5 3.7 5.5 3.7 8.8s-1.3 6.3-3.7 8.8c-2.4-2.5-3.7-5.5-3.7-8.8S9.6 5.7 12 3.2z"/></svg></span>
+          <div><b>Built to serve widely</b><span>From Jamalpur, Bangladesh, serving clients locally and online, anywhere.</span></div>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- ============ LEADERSHIP ============ -->
-<section class="section alt" id="leadership">
+<section class="section alt" id="leadership" aria-labelledby="leadership-title">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">LEADERSHIP</div><h2>The people <span class="gold">accountable</span></h2></div>
+    <div class="sec-head reveal">
+      <p class="eyebrow">Leadership</p>
+      <h2 id="leadership-title">The people <span class="gold">accountable</span></h2>
+    </div>
     <div class="lead-grid">
-      <article class="lead-card">
-        <img src="assets/photos/founder.jpg" alt="Muhammad Jahid Hasan">
+      <article class="lead-card reveal">
+        <img src="assets/photos/founder.jpg" alt="Portrait of Muhammad Jahid Hasan" loading="lazy" decoding="async">
         <div class="lead-body">
           <h3>Muhammad Jahid Hasan</h3>
-          <div class="role">Founder &amp; Chairman</div>
-          <p>Known as <b>KSM JAHID</b> — English language teacher and education entrepreneur (MARMA, Notun Kuri, Shaheen School &amp; College, Jamalpur). He founded Self Scale Group to turn teaching excellence and AI capability into products and services that make people's lives easier.</p>
+          <p class="role">Founder &amp; Chairman</p>
+          <p>Known as <strong>KSM JAHID</strong> — English language teacher and education entrepreneur (MARMA, Notun Kuri, Shaheen School &amp; College, Jamalpur). He founded Self Scale Group to turn teaching excellence and AI capability into products and services that make people's lives easier.</p>
           <a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a>
         </div>
       </article>
-      <article class="lead-card">
-        <img src="assets/photos/ceo.jpg" alt="Khalid Bin Umar, Group CEO">
+      <article class="lead-card reveal">
+        <img src="assets/photos/ceo.jpg" alt="Portrait of Khalid Bin Umar, Group CEO" loading="lazy" decoding="async">
         <div class="lead-body">
           <h3>Khalid Bin Umar</h3>
-          <div class="role">Group CEO</div>
+          <p class="role">Group CEO</p>
           <p>The management layer of Self Scale Group. The Group CEO builds the organisation for each goal the Founder sets, coordinates every department, verifies quality personally, and reports results honestly — verified, or not claimed at all.</p>
           <a class="mail" href="mailto:khalid.ceo.ssg@gmail.com">khalid.ceo.ssg@gmail.com</a>
         </div>
@@ -101,60 +140,143 @@
 </section>
 
 <!-- ============ TEAM ============ -->
-<section class="section" id="team">
+<section class="section" id="team" aria-labelledby="team-title">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">OUR TEAM</div><h2>Department <span class="gold">leads</span></h2>
-    <p class="sec-sub">Every department has a named lead with a public face and an official email. Write to any of us — we reply like professionals.</p></div>
+    <div class="sec-head reveal">
+      <p class="eyebrow">Our Team</p>
+      <h2 id="team-title">Department <span class="gold">leads</span></h2>
+      <p class="sec-sub">Every department has a named lead with a public face and an official email. Write to any of us — we reply like professionals.</p>
+    </div>
+    <div class="team-tools reveal">
+      <label for="teamSearch">Search the team</label>
+      <input type="search" id="teamSearch" placeholder="Search by name or role…" autocomplete="off">
+      <p class="team-count" id="teamCount" role="status"></p>
+    </div>
     <div class="team-grid" id="teamGrid"><!-- rendered by app.js from the official directory --></div>
+    <p class="team-empty" id="teamEmpty" hidden>No one matches that search. <button type="button" id="teamClear">Show everyone</button></p>
+    <noscript><p class="team-empty">The team directory needs JavaScript to load. Please email us at <a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a> and we will introduce the right lead.</p></noscript>
   </div>
 </section>
 
 <!-- ============ SERVICES ============ -->
-<section class="section alt" id="services">
+<section class="section alt" id="services" aria-labelledby="services-title">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">SERVICES</div><h2>What we <span class="gold">deliver</span></h2></div>
+    <div class="sec-head reveal">
+      <p class="eyebrow">Services</p>
+      <h2 id="services-title">What we <span class="gold">deliver</span></h2>
+    </div>
     <div class="svc-grid">
-      <article class="svc"><div class="svc-ic">📝</div><h3>Education &amp; Exam Services</h3><p>Question papers, model tests, marking-ready exam packages and practice systems for schools and coaching centres — accurate, on syllabus, on time.</p></article>
-      <article class="svc"><div class="svc-ic">🎓</div><h3>Teaching Content &amp; Courses</h3><p>Lesson decks, practice books, spoken-English and phonics programmes, and interactive learning software built from real classroom content.</p></article>
-      <article class="svc"><div class="svc-ic">📊</div><h3>Office Documents &amp; Data</h3><p>Professional Word, Excel and PowerPoint work: reports, mark sheets, models with live formulas, and presentation decks that reconcile and print clean.</p></article>
-      <article class="svc"><div class="svc-ic">🎨</div><h3>Design, Social Media &amp; Video</h3><p>Posters, book covers, thumbnails, social content and edited video with clean sound, music and captions — designed to a premium, checked standard.</p></article>
-      <article class="svc"><div class="svc-ic">📱</div><h3>Apps &amp; Software</h3><p>Small, useful apps and tools: teacher utilities, practice software and business helpers — designed, built and tested end to end.</p></article>
-      <article class="svc"><div class="svc-ic">📣</div><h3>Marketing</h3><p>Honest offers, ad copy, captions and simple funnels for courses, schools and local businesses. No fake claims — marketing that respects the customer.</p></article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8.2h6M9 12h6M9 15.8h3.6"/></svg></span>
+        <h3>Education &amp; Exam Services</h3>
+        <p>Question papers, model tests, marking-ready exam packages and practice systems for schools and coaching centres — accurate, on syllabus, on time.</p>
+      </article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 6.2C10.2 4.8 7.6 4.2 4 4.2v13.6c3.6 0 6.2.6 8 2 1.8-1.4 4.4-2 8-2V4.2c-3.6 0-6.2.6-8 2z"/><path d="M12 6.2v13.6"/></svg></span>
+        <h3>Teaching Content &amp; Courses</h3>
+        <p>Lesson decks, practice books, spoken-English and phonics programmes, and interactive learning software built from real classroom content.</p>
+      </article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 4v16h16"/><path d="M8 16v-5M12 16V8M16 16v-3"/></svg></span>
+        <h3>Office Documents &amp; Data</h3>
+        <p>Professional Word, Excel and PowerPoint work: reports, mark sheets, models with live formulas, and presentation decks that reconcile and print clean.</p>
+      </article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.6" cy="10" r="1.4"/><path d="M20.5 16.5 16 12l-6.5 6.5"/></svg></span>
+        <h3>Design, Social Media &amp; Video</h3>
+        <p>Posters, book covers, thumbnails, social content and edited video with clean sound, music and captions — designed to a premium, checked standard.</p>
+      </article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="7" y="2.8" width="10" height="18.4" rx="2"/><path d="M10.8 18.4h2.4"/></svg></span>
+        <h3>Apps &amp; Software</h3>
+        <p>Small, useful apps and tools: teacher utilities, practice software and business helpers — designed, built and tested end to end.</p>
+      </article>
+      <article class="svc reveal">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 10v4h3.2L12 18.4V5.6L7.2 10z"/><path d="M15.2 9.2a4 4 0 0 1 0 5.6"/></svg></span>
+        <h3>Marketing</h3>
+        <p>Honest offers, ad copy, captions and simple funnels for courses, schools and local businesses. No fake claims — marketing that respects the customer.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- ============ CONTACT ============ -->
-<section class="section" id="contact">
+<section class="section" id="contact" aria-labelledby="contact-title">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">CONTACT</div><h2>Talk to <span class="gold">Self Scale Group</span></h2></div>
+    <div class="sec-head reveal">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title">Talk to <span class="gold">Self Scale Group</span></h2>
+    </div>
     <div class="contact-grid">
-      <div class="contact-info">
-        <div class="point"><b>📍 Base</b><span>Jamalpur Sadar, Jamalpur, Bangladesh</span></div>
-        <div class="point"><b>✉️ Founder &amp; Chairman</b><span><a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a></span></div>
-        <div class="point"><b>✉️ Group CEO</b><span><a class="mail" href="mailto:khalid.ceo.ssg@gmail.com">khalid.ceo.ssg@gmail.com</a></span></div>
-        <div class="point"><b>🕘 Working style</b><span>Send a message with what you need. We reply with a clear plan, a fair price, and a delivery date we can keep.</span></div>
-      </div>
-      <form class="contact-form" id="msgForm" novalidate>
+      <ul class="contact-info reveal">
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 21s-6.8-5.3-6.8-10.8a6.8 6.8 0 0 1 13.6 0C18.8 15.7 12 21 12 21z"/><circle cx="12" cy="10.2" r="2.5"/></svg></span>
+          <div><b>Base</b><span>Jamalpur Sadar, Jamalpur, Bangladesh</span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.8 12 12.6l8.5-5.8"/></svg></span>
+          <div><b>Founder &amp; Chairman</b><span><a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a></span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.8 12 12.6l8.5-5.8"/></svg></span>
+          <div><b>Group CEO</b><span><a class="mail" href="mailto:khalid.ceo.ssg@gmail.com">khalid.ceo.ssg@gmail.com</a></span></div>
+        </li>
+        <li class="point">
+          <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.8"/><path d="M12 7.2V12l3.2 2"/></svg></span>
+          <div><b>Working style</b><span>Send a message with what you need. We reply with a clear plan, a fair price, and a delivery date we can keep.</span></div>
+        </li>
+      </ul>
+      <form class="contact-form reveal" id="msgForm" novalidate>
         <h3>Send a message</h3>
-        <label for="fName">Your name</label>
-        <input id="fName" name="name" type="text" placeholder="e.g. Rahim Uddin" required>
-        <label for="fEmail">Your email</label>
-        <input id="fEmail" name="email" type="email" placeholder="you@example.com" required>
-        <label for="fMsg">Your message</label>
-        <textarea id="fMsg" name="message" rows="5" placeholder="Tell us what you need…" required></textarea>
-        <button class="btn gold-btn" type="submit" id="sendBtn">Send Message</button>
-        <p class="form-note" id="formNote">Your message goes to the Founder's office. We respect your privacy — no spam, ever.</p>
+        <div class="field">
+          <label for="fName">Your name</label>
+          <input id="fName" name="name" type="text" autocomplete="name" placeholder="e.g. Rahim Uddin" required>
+        </div>
+        <div class="field">
+          <label for="fEmail">Your email</label>
+          <input id="fEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="fMsg">Your message</label>
+          <textarea id="fMsg" name="message" rows="5" placeholder="Tell us what you need…" required></textarea>
+        </div>
+        <button class="btn btn-gold btn-block" type="submit" id="sendBtn">Send Message</button>
+        <p class="form-note" id="formNote" role="status" aria-live="polite">Messages are read by the Founder's office. We respect your privacy — no spam, ever.</p>
       </form>
     </div>
   </div>
 </section>
 
-<footer>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
   <div class="wrap foot">
-    <div><b>Self Scale Group</b><br><span>AI-native company · Education, AI, software &amp; media</span></div>
-    <div class="foot-links"><a href="#about">About</a><a href="#leadership">Leadership</a><a href="#team">Team</a><a href="#services">Services</a><a href="#contact">Contact</a></div>
-    <div>© <span id="yr">2026</span> Self Scale Group. Founded by Muhammad Jahid Hasan.</div>
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="Self Scale Group — back to top">
+        <span class="brand-mark" aria-hidden="true">
+          <img class="brand-logo" src="assets/logo-original.jpg" alt="" width="42" height="42">
+        </span>
+        <span class="brand-text">Self&nbsp;Scale <b>Group</b></span>
+      </a>
+      <p>AI-native company · Education, AI, software &amp; media — from Jamalpur, Bangladesh, to the world.</p>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <h3>Explore</h3>
+      <a href="#about">About</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#team">Team</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="foot-contact">
+      <h3>Contact</h3>
+      <a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a>
+      <a class="mail" href="mailto:khalid.ceo.ssg@gmail.com">khalid.ceo.ssg@gmail.com</a>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© <span id="yr">2026</span> Self Scale Group. Founded by Muhammad Jahid Hasan.</p>
   </div>
 </footer>
 
