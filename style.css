@@ -255,6 +255,20 @@ li{list-style:none}
 .form-note.warn{color:var(--gold);font-weight:600}
 .form-note.err{color:#fda4af;font-weight:600}
 
+/* ---------- account ---------- */
+.account-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;max-width:560px}
+.account-card label{display:block;font-size:.86rem;font-weight:700;color:var(--ink);margin-bottom:7px}
+.account-card input{
+  width:100%;background:var(--navy-deep);border:2px solid var(--line);border-radius:12px;
+  color:#fff;padding:13px 15px;font-size:1rem;font-family:inherit;line-height:1.5;
+}
+.account-card input::placeholder{color:#8fa5cc}
+.account-card input:focus{outline:none;border-color:var(--gold)}
+.account-card input[aria-invalid="true"]{border-color:#f87171}
+.auth-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.auth-user{color:var(--mut);margin-bottom:18px}
+.auth-user strong{color:var(--ink)}
+
 /* ---------- footer ---------- */
 .site-footer{border-top:1px solid var(--line);background:var(--navy-deep)}
 .foot{
