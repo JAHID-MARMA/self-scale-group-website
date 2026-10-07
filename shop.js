@@ -5,8 +5,9 @@
    products" downloads.
 
    Founder rule (2026-10-07): anyone may visit the public
-   website, but to SEE our products a visitor must log in with
-   email (Supabase Auth). Logged out, this page renders NO
+   website, but to SEE our products a visitor must log in —
+   with Gmail (Google) or with email and password (Supabase
+   Auth). Logged out, this page renders NO
    product names, descriptions or prices, and does not query
    the products table. The "Ways to learn with us" ladder stays
    public on purpose (it holds no prices or products), and the
@@ -42,6 +43,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   const gatePassEl = document.getElementById("gatePassword");
   const gateSignUpBtn = document.getElementById("gateSignUpBtn");
   const gateLogInBtn = document.getElementById("gateLogInBtn");
+  const gateGoogleBtn = document.getElementById("gateGoogleBtn");
   const gateNote = document.getElementById("gateNote");
 
   /* members-only areas */
@@ -97,6 +99,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   if (!supabaseClient) {
     gateSignUpBtn.disabled = true;
     gateLogInBtn.disabled = true;
+    if (gateGoogleBtn) gateGoogleBtn.disabled = true;
     sayGate("Accounts are not working right now. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
     myGate.textContent = "Log in is not available right now, so we cannot show products. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.";
     return;
@@ -128,11 +131,16 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     return { email, password };
   }
 
+  const gateGoogleHTML = gateGoogleBtn ? gateGoogleBtn.innerHTML : "";
   function setGateBusy(busy) {
     gateSignUpBtn.disabled = busy;
     gateLogInBtn.disabled = busy;
     gateSignUpBtn.textContent = busy ? "Please wait…" : "Sign Up";
     gateLogInBtn.textContent = busy ? "Please wait…" : "Log In";
+    if (gateGoogleBtn) {
+      gateGoogleBtn.disabled = busy;
+      gateGoogleBtn.innerHTML = busy ? "Please wait…" : gateGoogleHTML;
+    }
   }
 
   async function doGateSignUp() {
@@ -171,8 +179,32 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     }
   }
 
+  /* Gmail (Google) sign-in. On success the browser leaves for
+     Google's sign-in page and returns here; the session logic
+     below (getSession / onAuthStateChange) then opens the
+     member gate exactly as it does after email login. Until the
+     Google provider is switched on in Supabase, Supabase returns
+     a real error — we show that error word for word and never
+     pretend the visitor is logged in. */
+  async function doGateGoogle() {
+    setGateBusy(true);
+    try {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin + window.location.pathname },
+      });
+      if (error) { sayGate(error.message, "err"); return; }
+      sayGate("Taking you to Google to log in…", "");
+    } catch (e) {
+      sayGate("We could not start Gmail login just now. Please check your connection and try again, or use email and password below.", "err");
+    } finally {
+      setGateBusy(false);
+    }
+  }
+
   gateSignUpBtn.addEventListener("click", doGateSignUp);
   gateLogInBtn.addEventListener("click", doGateLogIn);
+  if (gateGoogleBtn) gateGoogleBtn.addEventListener("click", doGateGoogle);
   /* Pressing Enter in the form logs in — same as Account. */
   gateForm.addEventListener("submit", (ev) => { ev.preventDefault(); doGateLogIn(); });
 

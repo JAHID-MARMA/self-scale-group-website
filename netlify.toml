@@ -1,0 +1,17 @@
+# Self Scale Group — Netlify headers (security + asset caching).
+# Headers/redirects only: no [build] section, the site is published
+# from the repository root exactly as it is today.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://npgmkmewyjnqvzqmmppd.supabase.co wss://npgmkmewyjnqvzqmmppd.supabase.co"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

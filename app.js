@@ -29,7 +29,7 @@ const TEAM = [
   if (!grid) return;
   grid.innerHTML = TEAM.map(m => `
     <article class="member reveal" data-search="${(m.name + " " + m.role).toLowerCase()}">
-      <img src="assets/photos/${m.img}.jpg" alt="Portrait of ${m.name}, ${m.role} at Self Scale Group" loading="lazy" decoding="async">
+      <img src="assets/photos/${m.img}.jpg" alt="Portrait of ${m.name}, ${m.role} at Self Scale Group" width="896" height="1200" loading="lazy" decoding="async">
       <div class="member-body">
         <h3>${m.name}</h3>
         <p class="mrole">${m.role}</p>
@@ -190,6 +190,7 @@ async function sendToSupabase({ name, email, message }) {
   const passEl = document.getElementById("authPassword");
   const signUpBtn = document.getElementById("signUpBtn");
   const logInBtn = document.getElementById("logInBtn");
+  const googleBtn = document.getElementById("googleBtn");
   const logOutBtn = document.getElementById("logOutBtn");
   const loggedOutBox = document.getElementById("authLoggedOut");
   const loggedInBox = document.getElementById("authLoggedIn");
@@ -212,6 +213,7 @@ async function sendToSupabase({ name, email, message }) {
     say("Accounts are not working right now. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
     signUpBtn.disabled = true;
     logInBtn.disabled = true;
+    if (googleBtn) googleBtn.disabled = true;
     render(null);
     return;
   }
@@ -236,11 +238,16 @@ async function sendToSupabase({ name, email, message }) {
     return { email, password };
   }
 
+  const googleBtnHTML = googleBtn ? googleBtn.innerHTML : "";
   function setBusy(busy) {
     signUpBtn.disabled = busy;
     logInBtn.disabled = busy;
     signUpBtn.textContent = busy ? "Please wait…" : "Sign Up";
     logInBtn.textContent = busy ? "Please wait…" : "Log In";
+    if (googleBtn) {
+      googleBtn.disabled = busy;
+      googleBtn.innerHTML = busy ? "Please wait…" : googleBtnHTML;
+    }
   }
 
   async function doSignUp() {
@@ -292,8 +299,32 @@ async function sendToSupabase({ name, email, message }) {
     }
   }
 
+  /* Gmail (Google) sign-in. On success the browser leaves for
+     Google's sign-in page and comes back here; the session
+     restore below (getSession / onAuthStateChange) then shows
+     the logged-in box, exactly as after email login. Until the
+     Google provider is switched on in Supabase, Supabase returns
+     a real error — we show that error word for word and never
+     pretend the visitor is logged in. */
+  async function doGoogle() {
+    setBusy(true);
+    try {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin + window.location.pathname },
+      });
+      if (error) { say(error.message, "err"); return; }
+      say("Taking you to Google to log in…", "");
+    } catch (e) {
+      say("We could not start Gmail login just now. Please check your connection and try again, or use email and password below.", "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   signUpBtn.addEventListener("click", doSignUp);
   logInBtn.addEventListener("click", doLogIn);
+  if (googleBtn) googleBtn.addEventListener("click", doGoogle);
   logOutBtn.addEventListener("click", doLogOut);
   /* Pressing Enter in the form logs in. */
   form.addEventListener("submit", (ev) => { ev.preventDefault(); doLogIn(); });
