@@ -361,6 +361,64 @@ li{list-style:none}
   padding:7px 12px;border-radius:999px;white-space:nowrap;
 }
 
+/* ---------- homepage funnel + shop ladder ---------- */
+.free-band{
+  background:
+    radial-gradient(720px 300px at 88% 0%,rgba(244,197,66,.13) 0%,transparent 62%),
+    var(--navy-2);
+  border-bottom:1px solid var(--line);
+}
+.free-band-in{display:flex;align-items:center;justify-content:space-between;gap:32px}
+.free-band h2{font-size:var(--fs-h2);font-weight:800}
+.free-copy{color:var(--mut);font-size:1.05rem;margin-top:14px;max-width:42rem}
+.offer-state{border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+.offer-state strong{color:var(--gold)}
+.svc .btn{margin-top:18px}
+.buy-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.buy-step{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;display:flex;gap:14px;align-items:flex-start;
+}
+.buy-step b{display:block;color:#fff;font-size:1.02rem;margin-bottom:4px}
+.buy-step p{color:var(--mut);font-size:.95rem}
+.step-num{
+  flex:0 0 38px;width:38px;height:38px;border-radius:50%;
+  background:var(--gold);color:#231a02;font-family:"Sora",sans-serif;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.faq-list{display:grid;gap:12px;max-width:900px}
+.faq-item{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:0 20px}
+.faq-item summary{
+  cursor:pointer;color:#fff;font-family:"Sora",sans-serif;font-weight:700;
+  padding:18px 0;min-height:48px;
+}
+.faq-item p{color:var(--mut);padding:0 0 18px}
+.ladder{margin:34px 0 38px}
+.ladder-head{max-width:46rem;margin-bottom:20px}
+.ladder-head h3{font-size:1.45rem}
+.ladder-head p:not(.eyebrow){color:var(--mut);margin-top:10px}
+.ladder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ladder-card{
+  background:var(--navy-deep);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px;min-height:190px;
+}
+.ladder-step{
+  width:34px;height:34px;border-radius:50%;background:rgba(244,197,66,.14);
+  border:1px solid rgba(244,197,66,.45);color:var(--gold);
+  font-family:"Sora",sans-serif;font-weight:800;display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+.ladder-card h4{font-family:"Sora",sans-serif;color:#fff;font-size:1rem;line-height:1.3;margin:0 0 8px}
+.ladder-card p{color:var(--mut);font-size:.92rem}
+.ladder-state,.ladder-link{
+  display:inline-flex;margin-top:14px;font-size:.84rem;font-weight:700;
+}
+.ladder-state{color:var(--gold)}
+.ladder-link{color:var(--gold);text-underline-offset:3px}
+@media (max-width:640px){
+  .free-band-in{align-items:flex-start;flex-direction:column}
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
