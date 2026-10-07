@@ -330,6 +330,37 @@ li{list-style:none}
   .member .mail{font-size:.76rem}
 }
 
+/* ---------- shop ---------- */
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.shop-card .price{font-size:1.35rem;font-weight:800;color:var(--gold);font-family:"Sora",sans-serif;margin:14px 0 16px}
+.shop-card p{color:var(--mut);font-size:.95rem}
+.shop-empty{
+  color:var(--mut);background:var(--panel);
+  border:1px dashed var(--line);border-radius:var(--radius);padding:20px;font-size:.97rem;
+}
+.price{font-size:1.35rem;font-weight:800;color:var(--gold);font-family:"Sora",sans-serif;margin:6px 0 4px}
+.buy-panel{margin-top:28px;max-width:640px}
+.buy-panel h3{font-size:1.3rem}
+.field-label{display:block;font-size:.86rem;font-weight:700;color:var(--ink);margin-bottom:7px}
+.bkash-number{
+  background:var(--navy-deep);border:2px solid var(--line);border-radius:12px;
+  color:#fff;padding:13px 15px;font-size:1.05rem;font-weight:700;letter-spacing:.02em;
+}
+.card-box{margin-top:26px;border-top:1px solid var(--line);padding-top:20px}
+.btn[disabled]{cursor:not-allowed}
+.dl-row{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:12px;
+}
+.dl-name{color:#fff;font-weight:600}
+.pending-title{font-size:1.05rem;margin:24px 0 12px}
+.chip-pending{
+  font-size:.8rem;font-weight:700;color:var(--gold);
+  border:1px solid rgba(244,197,66,.5);background:rgba(244,197,66,.1);
+  padding:7px 12px;border-radius:999px;white-space:nowrap;
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
