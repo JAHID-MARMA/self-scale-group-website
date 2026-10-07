@@ -129,8 +129,8 @@ async function sendToSupabase({ name, email, message }) {
 
   function notConnectedNotice() {
     note.className = "form-note warn";
-    note.innerHTML = "This online form is not connected yet — your message cannot be sent from here right now. " +
-      'Please email us at <a href="mailto:' + CONTACT_FALLBACK_EMAIL + '">' + CONTACT_FALLBACK_EMAIL + "</a> and we will reply.";
+    note.innerHTML = "This form is not ready yet, so please do not use it today. " +
+      'Email us at <a href="mailto:' + CONTACT_FALLBACK_EMAIL + '">' + CONTACT_FALLBACK_EMAIL + "</a> and a person will help you.";
   }
 
   /* Be honest from the start when Supabase is not configured. */
@@ -152,7 +152,7 @@ async function sendToSupabase({ name, email, message }) {
     const okEmail = mark(fEmail, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
     const okMsg = mark(fMsg, !message);
     if (!(okName && okEmail && okMsg)) {
-      note.textContent = "Please add your name, a valid email address, and a short message — all three are needed so we can reply.";
+      note.textContent = "Please add your name, a valid email address, and a short message — we need all three to get back to you.";
       note.className = "form-note err";
       ( !okName ? fName : !okEmail ? fEmail : fMsg ).focus();
       return;
@@ -165,11 +165,11 @@ async function sendToSupabase({ name, email, message }) {
     btn.textContent = "Sending…";
     try {
       await sendToSupabase({ name, email, message });
-      note.textContent = "Thank you, " + name.split(" ")[0] + ". Your message has been received. We will reply to " + email + ".";
+      note.textContent = "Thank you, " + name.split(" ")[0] + " — we have your message. A person reads every message. When we reply, it will be from our company email.";
       note.className = "form-note ok";
       form.reset();
     } catch (e) {
-      note.textContent = "Sorry — sending failed just now. Please email us directly at " + CONTACT_FALLBACK_EMAIL + ".";
+      note.textContent = "Sorry — your message could not be sent just now. Please email us directly at " + CONTACT_FALLBACK_EMAIL + " and we will help you.";
       note.className = "form-note err";
     } finally {
       btn.disabled = false;
@@ -209,7 +209,7 @@ async function sendToSupabase({ name, email, message }) {
   }
 
   if (!supabaseClient) {
-    say("Accounts are not available right now. Please use the contact form below or email us and we will help you.", "warn");
+    say("Accounts are not working right now. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
     signUpBtn.disabled = true;
     logInBtn.disabled = true;
     render(null);
@@ -229,7 +229,7 @@ async function sendToSupabase({ name, email, message }) {
     const okEmail = mark(emailEl, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
     const okPass = mark(passEl, !password);
     if (!(okEmail && okPass)) {
-      say("Please enter a valid email address and your password.", "err");
+      say("Please add a valid email address and your password.", "err");
       (!okEmail ? emailEl : passEl).focus();
       return null;
     }
@@ -251,12 +251,12 @@ async function sendToSupabase({ name, email, message }) {
       const { data, error } = await supabaseClient.auth.signUp(creds);
       if (error) { say(error.message, "err"); return; }
       if (data && data.session) {
-        say("Your account is created and you are logged in as " + creds.email + ".", "ok");
+        say("Your account is ready, and you are logged in as " + creds.email + ".", "ok");
       } else {
-        say("Check your email to confirm your account.", "ok");
+        say("Please check your email to confirm your account, then come back and log in.", "ok");
       }
     } catch (e) {
-      say("Sign up failed just now. Please check your connection and try again.", "err");
+      say("We could not make your account just now. Please check your connection and try again.", "err");
     } finally {
       setBusy(false);
     }
@@ -269,10 +269,10 @@ async function sendToSupabase({ name, email, message }) {
     try {
       const { data, error } = await supabaseClient.auth.signInWithPassword(creds);
       if (error) { say(error.message, "err"); return; }
-      say("Welcome back — you are logged in as " + (data.user ? data.user.email : creds.email) + ".", "ok");
+      say("Welcome back. You are logged in as " + (data.user ? data.user.email : creds.email) + ".", "ok");
       passEl.value = "";
     } catch (e) {
-      say("Log in failed just now. Please check your connection and try again.", "err");
+      say("We could not log you in just now. Please check your connection and try again.", "err");
     } finally {
       setBusy(false);
     }
@@ -286,7 +286,7 @@ async function sendToSupabase({ name, email, message }) {
       say("You are logged out.", "");
       passEl.value = "";
     } catch (e) {
-      say("Log out failed just now. Please try again.", "err");
+      say("We could not log you out just now. Please try again.", "err");
     } finally {
       logOutBtn.disabled = false;
     }
