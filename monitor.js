@@ -26,6 +26,7 @@
   if (!loginBox) return; /* not the monitor page */
 
   const loginForm = document.getElementById("monLoginForm");
+  const googleBtn = document.getElementById("monGoogleBtn");
   const emailEl = document.getElementById("monEmail");
   const passEl = document.getElementById("monPassword");
   const loginBtn = document.getElementById("monLoginBtn");
@@ -355,6 +356,7 @@
 
   if (!supabaseClient) {
     loginBtn.disabled = true;
+    googleBtn.disabled = true;
     loginNote.textContent = "Accounts are not working right now. Please email us at " +
       CONTACT_FALLBACK_EMAIL + " and we will help you.";
     loginNote.className = "form-note warn";
@@ -367,6 +369,32 @@
     return !bad;
   }
   [emailEl, passEl].forEach(f => f.addEventListener("input", () => f.removeAttribute("aria-invalid")));
+
+  /* Gmail login: Google signs the person in, then the normal
+     session routing + allowlist check decides what they see —
+     the Founder gets the panels, anyone else gets the private
+     notice. Same pattern the shop gate uses. */
+  googleBtn.addEventListener("click", async () => {
+    googleBtn.disabled = true;
+    try {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: window.location.origin + "/monitor.html" },
+      });
+      if (error) {
+        loginNote.textContent = error.message;
+        loginNote.className = "form-note err";
+        return;
+      }
+      loginNote.textContent = "Taking you to Google to log in…";
+      loginNote.className = "form-note";
+    } catch (e) {
+      loginNote.textContent = "We could not start the Gmail login just now. Please check your connection and try again.";
+      loginNote.className = "form-note err";
+    } finally {
+      googleBtn.disabled = false;
+    }
+  });
 
   loginForm.addEventListener("submit", async (ev) => {
     ev.preventDefault();
