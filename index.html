@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");</script>
 <title>Self Scale Group — AI-Native Company | Education, Software, Media &amp; Marketing</title>
 <meta name="description" content="Self Scale Group is an AI-native company founded by Muhammad Jahid Hasan (KSM JAHID): education products and teaching services, office document services, design, social media and video, app and software development, and marketing.">
 <meta name="robots" content="index, follow">
@@ -385,6 +386,17 @@
     }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
     items.forEach(function (el) { io.observe(el); });
   }
+
+  /* failsafe: never leave content hidden */
+  setTimeout(function () {
+    var limit = window.scrollY + window.innerHeight * 2.2;
+    items.forEach(function (el) {
+      if (el.getBoundingClientRect().top + window.scrollY < limit) el.classList.add("in");
+    });
+  }, 1600);
+  setTimeout(function () {
+    items.forEach(function (el) { el.classList.add("in"); });
+  }, 3500);
 
   /* glass nav shadow after scroll */
   var nav = document.getElementById("miniNav");

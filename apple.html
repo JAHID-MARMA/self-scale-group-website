@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");</script>
 <title>Self Scale Group</title>
 <meta name="description" content="Self Scale Group is a founder-led, AI-native company from Jamalpur, Bangladesh: education, software, media and marketing, checked by a person before it reaches you.">
 <meta name="robots" content="noindex">
@@ -300,6 +301,17 @@
     }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
     items.forEach(function (el) { io.observe(el); });
   }
+
+  /* failsafe: never leave content hidden */
+  setTimeout(function () {
+    var limit = window.scrollY + window.innerHeight * 2.2;
+    items.forEach(function (el) {
+      if (el.getBoundingClientRect().top + window.scrollY < limit) el.classList.add("in");
+    });
+  }, 1600);
+  setTimeout(function () {
+    items.forEach(function (el) { el.classList.add("in"); });
+  }, 3500);
 
   /* glass nav shadow after scroll */
   var nav = document.getElementById("miniNav");

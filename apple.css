@@ -232,7 +232,7 @@ ul{margin:0;padding:0;list-style:none}
 .foot-sign{margin-top:16px;color:var(--sub);font-size:13px}
 
 /* ---------- scroll reveal ---------- */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
 .tile.in .book-art{transform:scale(1)}
 .book-art{transition:transform 1.2s ease;transform:scale(1.015)}
@@ -255,7 +255,7 @@ ul{margin:0;padding:0;list-style:none}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .reveal{opacity:1;transform:none;transition:none}
+  .js .reveal{opacity:1;transform:none;transition:none}
   .book-art,.person .photo img{transform:none;transition:none}
   /* no auto slide: the strip becomes a plain horizontal scroll */
   .team-row-wrap{overflow-x:auto}
