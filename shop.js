@@ -1,7 +1,16 @@
 /* ============================================================
-   Self Scale Group — Shop v1
+   Self Scale Group — Shop v2
    ------------------------------------------------------------
-   Product list + bKash order flow + "My products" downloads.
+   Member gate + product list + bKash order flow + "My
+   products" downloads.
+
+   Founder rule (2026-10-07): anyone may visit the public
+   website, but to SEE our products a visitor must log in with
+   email (Supabase Auth). Logged out, this page renders NO
+   product names, descriptions or prices, and does not query
+   the products table. The "Ways to learn with us" ladder stays
+   public on purpose (it holds no prices or products), and the
+   free sampler download stays open to everyone.
 
    This file REUSES the Supabase client and config created in
    app.js (supabaseClient / supabaseReady / CONTACT_FALLBACK_EMAIL).
@@ -26,6 +35,21 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   const grid = document.getElementById("productGrid");
   if (!grid) return; /* not the shop page */
 
+  /* member gate (logged out) */
+  const gate = document.getElementById("memberGate");
+  const gateForm = document.getElementById("gateForm");
+  const gateEmailEl = document.getElementById("gateEmail");
+  const gatePassEl = document.getElementById("gatePassword");
+  const gateSignUpBtn = document.getElementById("gateSignUpBtn");
+  const gateLogInBtn = document.getElementById("gateLogInBtn");
+  const gateNote = document.getElementById("gateNote");
+
+  /* members-only areas */
+  const shopMembers = document.getElementById("shopMembers");
+  const myMembers = document.getElementById("myMembers");
+  const myGate = document.getElementById("myGate");
+
+  /* existing shop elements */
   const shopNote = document.getElementById("shopNote");
   const buyPanel = document.getElementById("buyPanel");
   const buyTitle = document.getElementById("buyTitle");
@@ -52,6 +76,10 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     if (!isFinite(n)) return "";
     return "৳" + (Number.isInteger(n) ? n.toString() : n.toFixed(2));
   }
+  function sayGate(msg, kind) {
+    gateNote.textContent = msg;
+    gateNote.className = "form-note" + (kind ? " " + kind : "");
+  }
   function sayShop(msg, kind) {
     shopNote.textContent = msg;
     shopNote.className = "form-note" + (kind ? " " + kind : "");
@@ -67,19 +95,94 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
 
   /* ---------- not connected: stay honest, offer email ---------- */
   if (!supabaseClient) {
-    sayShop("The shop is not ready yet, so we cannot show products right now. Please email us at " +
-      CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
-    sayMy("Log in is not available right now, so we cannot show your products. Please email us at " +
-      CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
+    gateSignUpBtn.disabled = true;
+    gateLogInBtn.disabled = true;
+    sayGate("Accounts are not working right now. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
+    myGate.textContent = "Log in is not available right now, so we cannot show products. Please email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.";
     return;
   }
 
   bkashNumberEl.textContent = BKASH_NUMBER;
 
   /* ==========================================================
-     1) PRODUCT LIST — from Supabase "products" (active only)
+     1) MEMBER GATE — same auth calls and messages as the
+        Account section on index.html (app.js wireAuth)
+     ========================================================== */
+  function gateMark(field, bad) {
+    if (bad) field.setAttribute("aria-invalid", "true");
+    else field.removeAttribute("aria-invalid");
+    return !bad;
+  }
+  [gateEmailEl, gatePassEl].forEach(f => f.addEventListener("input", () => f.removeAttribute("aria-invalid")));
+
+  function readGateCredentials() {
+    const email = gateEmailEl.value.trim();
+    const password = gatePassEl.value;
+    const okEmail = gateMark(gateEmailEl, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email));
+    const okPass = gateMark(gatePassEl, !password);
+    if (!(okEmail && okPass)) {
+      sayGate("Please add a valid email address and your password.", "err");
+      (!okEmail ? gateEmailEl : gatePassEl).focus();
+      return null;
+    }
+    return { email, password };
+  }
+
+  function setGateBusy(busy) {
+    gateSignUpBtn.disabled = busy;
+    gateLogInBtn.disabled = busy;
+    gateSignUpBtn.textContent = busy ? "Please wait…" : "Sign Up";
+    gateLogInBtn.textContent = busy ? "Please wait…" : "Log In";
+  }
+
+  async function doGateSignUp() {
+    const creds = readGateCredentials();
+    if (!creds) return;
+    setGateBusy(true);
+    try {
+      const { data, error } = await supabaseClient.auth.signUp(creds);
+      if (error) { sayGate(error.message, "err"); return; }
+      if (data && data.session) {
+        sayGate("Your account is ready, and you are logged in as " + creds.email + ".", "ok");
+        gatePassEl.value = "";
+      } else {
+        sayGate("Please check your email to confirm your account, then come back and log in.", "ok");
+      }
+    } catch (e) {
+      sayGate("We could not make your account just now. Please check your connection and try again.", "err");
+    } finally {
+      setGateBusy(false);
+    }
+  }
+
+  async function doGateLogIn() {
+    const creds = readGateCredentials();
+    if (!creds) return;
+    setGateBusy(true);
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword(creds);
+      if (error) { sayGate(error.message, "err"); return; }
+      sayGate("Welcome back. You are logged in as " + (data.user ? data.user.email : creds.email) + ".", "ok");
+      gatePassEl.value = "";
+    } catch (e) {
+      sayGate("We could not log you in just now. Please check your connection and try again.", "err");
+    } finally {
+      setGateBusy(false);
+    }
+  }
+
+  gateSignUpBtn.addEventListener("click", doGateSignUp);
+  gateLogInBtn.addEventListener("click", doGateLogIn);
+  /* Pressing Enter in the form logs in — same as Account. */
+  gateForm.addEventListener("submit", (ev) => { ev.preventDefault(); doGateLogIn(); });
+
+  /* ==========================================================
+     2) PRODUCT LIST — members only.
+        The products query runs ONLY with a live session, and
+        nothing product-shaped is rendered while logged out.
      ========================================================== */
   async function loadProducts() {
+    if (!currentUser) { grid.innerHTML = ""; return; }
     sayShop("Loading products…", "");
     const { data, error } = await supabaseClient
       .from("products")
@@ -118,7 +221,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   }
 
   /* ==========================================================
-     2) BUY FLOW — login required; bKash pending order
+     3) BUY FLOW — login required; bKash pending order
      ========================================================== */
   function openBuy(product) {
     if (!currentUser) {
@@ -186,7 +289,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   });
 
   /* ==========================================================
-     3) MY PRODUCTS — approved entitlements + pending orders
+     4) MY PRODUCTS — approved entitlements + pending orders
      ========================================================== */
   async function loadMyArea() {
     myList.innerHTML = "";
@@ -264,17 +367,35 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   }
 
   /* ==========================================================
-     4) AUTH STATE — restore session, keep UI in sync
+     5) AUTH STATE — gate and members swap live on any change
      ========================================================== */
   function setUser(session) {
+    const prevId = currentUser ? currentUser.id : null;
     currentUser = session && session.user ? session.user : null;
+    const nowId = currentUser ? currentUser.id : null;
+    const changed = prevId !== nowId;
+
+    gate.hidden = !!currentUser;
+    shopMembers.hidden = !currentUser;
+    myMembers.hidden = !currentUser;
+    myGate.hidden = !!currentUser;
+
+    if (!currentUser) {
+      /* Leaving member state: wipe every product-shaped thing. */
+      selectedProduct = null;
+      buyPanel.hidden = true;
+      grid.innerHTML = "";
+      myList.innerHTML = "";
+      pendingList.innerHTML = "";
+      gatePassEl.value = "";
+      if (prevId) sayGate("You are logged out.", "");
+    } else if (changed) {
+      loadProducts();
+    }
     loadMyArea();
-    if (!currentUser && selectedProduct) { selectedProduct = null; }
   }
   supabaseClient.auth.getSession()
     .then(({ data }) => setUser(data ? data.session : null))
     .catch(() => setUser(null));
   supabaseClient.auth.onAuthStateChange((_event, session) => setUser(session));
-
-  loadProducts();
 })();
