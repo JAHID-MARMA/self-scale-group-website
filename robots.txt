@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://self-scale-group.netlify.app/sitemap.xml
+Sitemap: https://self-scale-group-website.vercel.app/sitemap.xml
 
 # Private Founder Monitor — never index or crawl it.
 User-agent: *

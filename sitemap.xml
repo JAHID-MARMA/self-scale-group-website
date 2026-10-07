@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://self-scale-group.netlify.app/</loc>
+    <loc>https://self-scale-group-website.vercel.app/</loc>
   </url>
   <url>
-    <loc>https://self-scale-group.netlify.app/shop.html</loc>
+    <loc>https://self-scale-group-website.vercel.app/shop.html</loc>
   </url>
   <url>
-    <loc>https://self-scale-group.netlify.app/privacy.html</loc>
+    <loc>https://self-scale-group-website.vercel.app/privacy.html</loc>
   </url>
 </urlset>
