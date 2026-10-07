@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Founder Monitor — Self Scale Group</title>
+<meta name="description" content="Private company monitor for the Founder of Self Scale Group.">
+<meta name="theme-color" content="#0a1a38">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://npgmkmewyjnqvzqmmppd.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a1a38'/><rect x='18' y='58' width='16' height='26' rx='3' fill='%23f4c542'/><rect x='42' y='42' width='16' height='42' rx='3' fill='%23f4c542'/><rect x='66' y='24' width='16' height='60' rx='3' fill='%23f4c542'/></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============ HEADER (no site nav on purpose — private page) ============ -->
+<header class="site-header">
+  <div class="nav-in">
+    <span class="brand" aria-label="Self Scale Group">
+      <span class="brand-mark" aria-hidden="true">
+        <img class="brand-logo" src="assets/logo-original.jpg" alt="" width="42" height="42">
+      </span>
+      <span class="brand-text">Self&nbsp;Scale <b>Group</b></span>
+    </span>
+    <span class="mon-head-tag">Founder Monitor</span>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<section class="section mon-section">
+  <div class="wrap">
+
+    <!-- ============ LOGIN (the only thing a visitor sees) ============ -->
+    <div id="monLoginBox" class="account-card mon-card">
+      <p class="eyebrow">Private</p>
+      <h1 class="mon-title">Founder Monitor</h1>
+      <p class="gate-copy">Founder only. Log in with the email and password you use on this website. Nothing on this page is public.</p>
+      <form id="monLoginForm" novalidate>
+        <div class="field">
+          <label for="monEmail">Email</label>
+          <input id="monEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="monPassword">Password</label>
+          <input id="monPassword" type="password" autocomplete="current-password" placeholder="Your password" required>
+        </div>
+        <div class="auth-btns">
+          <button class="btn btn-gold" id="monLoginBtn" type="submit">Log In</button>
+        </div>
+        <p class="form-note" id="monLoginNote" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <!-- ============ LOGGED IN, BUT NOT ON THE LIST ============ -->
+    <div id="monPrivateBox" class="account-card mon-card" hidden>
+      <p class="eyebrow">Private</p>
+      <h1 class="mon-title">This area is private.</h1>
+      <p class="gate-copy">You are logged in as <b id="monPrivateEmail"></b>, and this page is for the Founder only. No company data is shown here.</p>
+      <div class="auth-btns">
+        <button class="btn btn-ghost" id="monPrivateLogoutBtn" type="button">Log Out</button>
+      </div>
+    </div>
+
+    <!-- ============ THE MONITOR (Founder only) ============ -->
+    <div id="monPanels" hidden>
+      <div class="mon-toolbar">
+        <div>
+          <p class="eyebrow">Self Scale Live</p>
+          <h1 class="mon-title">Whole company, <span class="gold">one look</span></h1>
+          <p class="mon-sub">Logged in as <b id="monUserEmail"></b> · Last updated <span id="monLastUpdated">—</span></p>
+        </div>
+        <div class="mon-actions">
+          <button class="btn btn-gold" id="monRefreshBtn" type="button">Refresh</button>
+          <button class="btn btn-ghost" id="monLogoutBtn" type="button">Log Out</button>
+        </div>
+      </div>
+      <p class="form-note" id="monNote" role="status" aria-live="polite"></p>
+
+      <!-- 1 · Revenue -->
+      <section class="mon-panel" aria-labelledby="monRevTitle">
+        <h2 id="monRevTitle">Revenue</h2>
+        <div id="panRevenue" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 2 · Shop -->
+      <section class="mon-panel" aria-labelledby="monShopTitle">
+        <h2 id="monShopTitle">Shop</h2>
+        <div id="panShop" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 3 · Staff activity -->
+      <section class="mon-panel" aria-labelledby="monStaffTitle">
+        <h2 id="monStaffTitle">Staff Activity</h2>
+        <div id="panStaff" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 4 · Tools & credits -->
+      <section class="mon-panel" aria-labelledby="monToolsTitle">
+        <h2 id="monToolsTitle">Tools &amp; Credits</h2>
+        <div id="panTools" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 5 · Pipelines -->
+      <section class="mon-panel" aria-labelledby="monPipeTitle">
+        <h2 id="monPipeTitle">Pipelines</h2>
+        <div id="panPipelines" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 6 · Decisions (view only) -->
+      <section class="mon-panel" aria-labelledby="monDecTitle">
+        <h2 id="monDecTitle">Decisions Needed</h2>
+        <div id="panDecisions" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <!-- 7 · Site health -->
+      <section class="mon-panel" aria-labelledby="monHealthTitle">
+        <h2 id="monHealthTitle">Site Health</h2>
+        <div id="panHealth" class="mon-body"><p class="mon-empty">Loading…</p></div>
+      </section>
+
+      <p class="mon-foot-note">Money counts only when it is truly received. An approved order is not revenue. Credit numbers carry the date they were checked — old dates mean the number may have changed.</p>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="foot-base">
+  <div class="wrap">
+    <p>© <span id="yr">2026</span> Self Scale Group. Founder Monitor — private page, please do not share this address.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script src="monitor.js"></script>
+</body>
+</html>
