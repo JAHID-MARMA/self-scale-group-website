@@ -331,6 +331,9 @@ li{list-style:none}
 }
 
 /* ---------- shop ---------- */
+.member-gate{margin-top:28px}
+.member-gate h3{font-size:1.3rem}
+.gate-copy{color:var(--mut);line-height:1.6;margin-top:8px;max-width:32rem}
 .shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .shop-card .price{font-size:1.35rem;font-weight:800;color:var(--gold);font-family:"Sora",sans-serif;margin:14px 0 16px}
 .shop-card p{color:var(--mut);font-size:.95rem}
