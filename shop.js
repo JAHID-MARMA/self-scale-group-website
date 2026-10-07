@@ -67,10 +67,10 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
 
   /* ---------- not connected: stay honest, offer email ---------- */
   if (!supabaseClient) {
-    sayShop("The shop is not connected yet — products cannot be shown right now. Please email us at " +
+    sayShop("The shop is not ready yet, so we cannot show products right now. Please email us at " +
       CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
-    sayMy("Log-in is not available right now, so your products cannot be shown. Please email us at " +
-      CONTACT_FALLBACK_EMAIL + ".", "warn");
+    sayMy("Log in is not available right now, so we cannot show your products. Please email us at " +
+      CONTACT_FALLBACK_EMAIL + " and we will help you.", "warn");
     return;
   }
 
@@ -89,13 +89,13 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
 
     if (error) {
       grid.innerHTML = "";
-      sayShop("Products could not be loaded right now. The shop may still be in setup — please try again later, or email us at " +
-        CONTACT_FALLBACK_EMAIL + ".", "err");
+      sayShop("We could not load the products just now. Please try again in a little while, or email us at " +
+        CONTACT_FALLBACK_EMAIL + " and we will help you.", "err");
       return;
     }
     if (!data || data.length === 0) {
       grid.innerHTML =
-        '<p class="shop-empty">First product coming soon — being prepared by KSM JAHID.</p>';
+        '<p class="shop-empty">Our first product is being prepared by KSM JAHID. Please check back soon.</p>';
       sayShop("", "");
       return;
     }
@@ -106,7 +106,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
         <h3>${esc(p.name)}</h3>
         <p>${esc(p.description || "")}</p>
         <p class="price">${esc(fmtPrice(p.price_bdt))}</p>
-        <button class="btn btn-gold" type="button" data-buy="${esc(p.id)}">Buy</button>
+        <button class="btn btn-gold" type="button" data-buy="${esc(p.id)}">Buy this</button>
       </article>`).join("");
 
     grid.querySelectorAll("[data-buy]").forEach(btn => {
@@ -125,7 +125,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
       buyPanel.hidden = false;
       buyTitle.textContent = product.name;
       buyPrice.textContent = fmtPrice(product.price_bdt);
-      sayBuy("Please log in or create an account first — buying needs an account so we can deliver your product to you.", "warn");
+      sayBuy("Please log in or make an account first. We need your account so we can put your product in the right place for you.", "warn");
       document.getElementById("buyLoginLink").hidden = false;
       document.getElementById("bkashBox").hidden = true;
       buyPanel.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -137,7 +137,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     buyPrice.textContent = fmtPrice(product.price_bdt);
     document.getElementById("buyLoginLink").hidden = true;
     document.getElementById("bkashBox").hidden = false;
-    sayBuy("Pay by bKash first, then give your Trx ID below. Your product is delivered after the Founder confirms the payment.", "");
+    sayBuy("Please pay by bKash first, then put your Trx ID below. Once the Founder confirms your payment, your product will appear in My Products.", "");
     buyPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -157,8 +157,8 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     const sender = senderEl.value.trim();
     const okTrx = mark(trxEl, trx.length < 6);
     const okSender = mark(senderEl, !/^01\d{9}$/.test(sender));
-    if (!okTrx) { sayBuy("Please enter the bKash Trx ID from your payment (at least 6 characters).", "err"); trxEl.focus(); return; }
-    if (!okSender) { sayBuy("Please enter the 11-digit mobile number you sent the bKash payment from (starts with 01).", "err"); senderEl.focus(); return; }
+    if (!okTrx) { sayBuy("Please put the bKash Trx ID from your payment here. It has at least 6 characters.", "err"); trxEl.focus(); return; }
+    if (!okSender) { sayBuy("Please put the 11-digit mobile number you paid from. It should start with 01.", "err"); senderEl.focus(); return; }
 
     bkashBtn.disabled = true;
     const original = bkashBtn.textContent;
@@ -175,10 +175,10 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
       });
       if (error) throw error;
       trxEl.value = ""; senderEl.value = "";
-      sayBuy("Order received. Payment check in progress — once your bKash payment is confirmed, your product will appear in My Products below.", "ok");
+      sayBuy("Thank you — we have your order. Payment check in progress. Once your bKash payment is confirmed, your product will appear in My Products below.", "ok");
       loadMyArea();
     } catch (e) {
-      sayBuy("Your order could not be sent just now. Please check your connection and try again, or email us at " + CONTACT_FALLBACK_EMAIL + ".", "err");
+      sayBuy("We could not send your order just now. Please check your connection and try again, or email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "err");
     } finally {
       bkashBtn.disabled = false;
       bkashBtn.textContent = original;
@@ -192,7 +192,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
     myList.innerHTML = "";
     pendingList.innerHTML = "";
     if (!currentUser) {
-      sayMy("Log in to see your products.", "");
+      sayMy("Please log in to see your products.", "");
       return;
     }
     sayMy("Loading your products…", "");
@@ -211,9 +211,9 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
 
     sayMy("", "");
     if (ents.error) {
-      sayMy("Your products could not be loaded right now. Please try again later.", "err");
+      sayMy("We could not load your products just now. Please try again in a little while.", "err");
     } else if (!ents.data || ents.data.length === 0) {
-      myList.innerHTML = '<p class="shop-empty">You have no products yet. When a payment is confirmed, your product will appear here.</p>';
+      myList.innerHTML = '<p class="shop-empty">Nothing here yet. After we confirm a payment, your product will appear on this page.</p>';
     } else {
       myList.innerHTML = ents.data.map(e => `
         <div class="dl-row">
@@ -242,7 +242,7 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
   async function download(ent, btn) {
     btn.disabled = true;
     const original = btn.textContent;
-    btn.textContent = "Preparing…";
+    btn.textContent = "Getting your link…";
     try {
       const { data, error } = await supabaseClient.storage
         .from("product-files")
@@ -254,9 +254,9 @@ const BKASH_NUMBER = "TO BE SET BY FOUNDER";
       document.body.appendChild(a);
       a.click();
       a.remove();
-      sayMy("Your download has started. The link is private and expires in 5 minutes — you can press Download again any time.", "ok");
+      sayMy("Your download has started. This link is private and lasts 5 minutes. If it runs out, just press Download again.", "ok");
     } catch (e) {
-      sayMy("Download could not be prepared just now. Please try again, or email us at " + CONTACT_FALLBACK_EMAIL + ".", "err");
+      sayMy("We could not prepare your download just now. Please try again, or email us at " + CONTACT_FALLBACK_EMAIL + " and we will help you.", "err");
     } finally {
       btn.disabled = false;
       btn.textContent = original;
