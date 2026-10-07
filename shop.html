@@ -90,6 +90,29 @@
         </li>
       </ol>
     </div>
+    <!-- ============ MEMBER GATE (shown when logged out) ============ -->
+    <div class="account-card member-gate reveal" id="memberGate">
+      <h3>Members see our products</h3>
+      <p class="gate-copy">Log in with your email to see our products. New here? Make an account below — it only takes a moment.</p>
+      <form id="gateForm" novalidate>
+        <div class="field">
+          <label for="gateEmail">Email</label>
+          <input id="gateEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="gatePassword">Password</label>
+          <input id="gatePassword" name="password" type="password" autocomplete="current-password" placeholder="Your password" required>
+        </div>
+        <div class="auth-btns">
+          <button class="btn btn-gold" type="button" id="gateSignUpBtn">Sign Up</button>
+          <button class="btn btn-ghost" type="button" id="gateLogInBtn">Log In</button>
+        </div>
+      </form>
+      <p class="form-note" id="gateNote" role="status" aria-live="polite"></p>
+    </div>
+
+    <!-- ============ MEMBERS ONLY: PRODUCTS + BUY ============ -->
+    <div id="shopMembers" hidden>
     <div class="shop-grid" id="productGrid"><!-- rendered by shop.js from Supabase "products" --></div>
     <p class="form-note" id="shopNote" role="status" aria-live="polite"></p>
 
@@ -124,6 +147,7 @@
       </div>
       <p class="form-note" id="buyNote" role="status" aria-live="polite"></p>
     </div>
+    </div><!-- /#shopMembers -->
   </div>
 </section>
 
@@ -135,9 +159,12 @@
       <h2 id="my-title">Your <span class="gold">downloads</span></h2>
       <p class="sec-sub">After we confirm your payment, your books will appear here. Each download link is private and lasts 5 minutes. If it runs out, just press Download again.</p>
     </div>
-    <div id="myList"></div>
-    <div id="pendingList"></div>
-    <p class="form-note" id="myNote" role="status" aria-live="polite"></p>
+    <p class="shop-empty" id="myGate">Please log in to see your products.</p>
+    <div id="myMembers" hidden>
+      <div id="myList"></div>
+      <div id="pendingList"></div>
+      <p class="form-note" id="myNote" role="status" aria-live="polite"></p>
+    </div>
   </div>
 </section>
 
