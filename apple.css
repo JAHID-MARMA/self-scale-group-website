@@ -67,10 +67,15 @@ ul{margin:0;padding:0;list-style:none}
 
 /* ---------- hero ---------- */
 .hero{
+  position:relative;overflow:hidden;
   text-align:center;
   padding:clamp(72px,12vw,150px) 22px clamp(56px,8vw,96px);
-  background:var(--bg);
+  background:
+    radial-gradient(560px 300px at 12% -40px, rgba(233,185,73,.20), rgba(233,185,73,0) 65%),
+    radial-gradient(720px 380px at 88% -60px, rgba(0,102,204,.14), rgba(0,102,204,0) 65%),
+    var(--bg);
 }
+.hero>*{position:relative;z-index:1}
 .eyebrow{
   font-size:15px;font-weight:600;letter-spacing:.02em;color:var(--sub);
   text-transform:none;margin-bottom:14px;
@@ -93,6 +98,7 @@ ul{margin:0;padding:0;list-style:none}
   border-radius:var(--radius);
   padding:clamp(34px,5vw,64px);
   overflow:hidden;position:relative;
+  box-shadow:0 18px 44px rgba(10,26,56,.05);
 }
 .tile.light{background:var(--surface)}
 .tile h2{font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.08;max-width:16ch}
@@ -100,33 +106,28 @@ ul{margin:0;padding:0;list-style:none}
 .tile .tile-links{margin-top:22px;display:flex;gap:30px;flex-wrap:wrap;font-size:17px}
 .tile .tile-links a::after{content:" ›"}
 
-/* feature tile art */
-.book-art{
-  margin-top:clamp(30px,5vw,54px);
-  border-radius:var(--radius-s);
-  background:linear-gradient(155deg,#fdf6e3 0%,#f7ead0 46%,#f5f5f7 100%);
-  padding:clamp(34px,6vw,70px) 24px;
-  text-align:center;
-}
-.book-art .letters{
-  font-size:clamp(3.4rem,10vw,7rem);font-weight:700;letter-spacing:-.01em;color:var(--ink);line-height:1;
-}
-.book-art .letters span{color:#b98a12}
-.book-art .book-title{margin-top:16px;font-size:clamp(1rem,2vw,1.2rem);color:var(--sub);font-weight:500}
-.book-art .book-title b{color:var(--ink);font-weight:600}
-
 /* two-up grid */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 
 /* dark tile */
-.tile.dark{background:#161617;color:#f5f5f7}
+.tile.dark{
+  background:
+    radial-gradient(700px 320px at 85% -80px, rgba(233,185,73,.14), rgba(233,185,73,0) 60%),
+    linear-gradient(152deg,#0a1a38 0%,#10121c 52%,#000 100%);
+  color:#f5f5f7;
+}
 .tile.dark h2{color:#f5f5f7}
 .tile.dark .tile-sub{color:#a1a1a6}
 .dark-note{margin-top:22px;font-size:15px;font-weight:600;color:#f5f5f7;letter-spacing:.01em}
 .dark-note::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:9px;vertical-align:2px}
 
 /* ---------- team ---------- */
-.team-sec{padding:clamp(64px,9vw,110px) 0 clamp(56px,8vw,90px)}
+.team-sec{
+  background:var(--surface);
+  padding:clamp(64px,9vw,110px) 0 clamp(56px,8vw,90px);
+  margin-top:18px;
+}
+.team-hint{margin-top:10px;color:var(--link);font-size:15px;font-weight:500}
 .team-sec h2{
   font-size:clamp(2.1rem,5vw,3.6rem);line-height:1.08;max-width:18ch;
 }
@@ -234,9 +235,7 @@ ul{margin:0;padding:0;list-style:none}
 /* ---------- scroll reveal ---------- */
 .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
-.tile.in .book-art{transform:scale(1)}
-.book-art{transition:transform 1.2s ease;transform:scale(1.015)}
-.tile.in .book-art{transform:scale(1)}
+
 
 /* ---------- responsive ---------- */
 @media (max-width:980px){
@@ -256,8 +255,167 @@ ul{margin:0;padding:0;list-style:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .reveal{opacity:1;transform:none;transition:none}
-  .book-art,.person .photo img{transform:none;transition:none}
+  .person .photo img{transform:none;transition:none}
   /* no auto slide: the strip becomes a plain horizontal scroll */
   .team-row-wrap{overflow-x:auto}
   .team-track{animation:none}
+}
+
+/* ---------- feature tile: the book, shown as a real page ---------- */
+.tile-book{
+  display:grid;grid-template-columns:1.02fr .78fr;
+  gap:clamp(28px,4.5vw,58px);align-items:center;
+  background:
+    radial-gradient(520px 300px at 100% 0%, rgba(233,185,73,.16), rgba(233,185,73,0) 60%),
+    var(--surface);
+}
+.book-copy{min-width:0}
+.book-shot{margin:0;position:relative;z-index:0;justify-self:center;width:min(340px,100%)}
+.book-shot::before{
+  content:"";position:absolute;inset:12px -12px -12px 12px;z-index:0;
+  background:#fff;border:1px solid var(--hair);border-radius:10px 18px 18px 10px;
+  transform:rotate(1.4deg);
+}
+.book-shot img{
+  position:relative;z-index:1;width:100%;height:auto;
+  border-radius:8px 16px 16px 8px;border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 34px 60px rgba(10,26,56,.20),0 5px 16px rgba(10,26,56,.12);
+}
+.book-shot figcaption{
+  position:relative;z-index:1;margin-top:18px;text-align:center;
+  color:var(--sub);font-size:14px;
+}
+
+/* ---------- products: e-commerce cards ---------- */
+.prod-block{padding:4px 2px 0}
+.prod-head{font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.08}
+.prod-sub{margin-top:12px;color:var(--sub);font-size:clamp(1.02rem,1.9vw,1.22rem);max-width:56ch}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px}
+.prod-card{
+  background:var(--surface);border-radius:var(--radius-s);overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 14px 36px rgba(10,26,56,.07);
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.prod-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px rgba(10,26,56,.12)}
+.prod-media{position:relative;aspect-ratio:16/10.5;overflow:hidden;background:#ececf0}
+.prod-media>img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.badge{
+  position:absolute;top:14px;left:14px;z-index:2;
+  padding:6px 12px;border-radius:999px;
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;
+  background:rgba(255,255,255,.92);color:var(--ink);
+  box-shadow:0 4px 14px rgba(10,26,56,.18);
+}
+.badge-free{background:var(--gold);color:var(--gold-ink)}
+.prod-media.art{display:flex;align-items:center;justify-content:center}
+.art{text-align:center;padding:20px}
+.art .art-big{
+  font-size:clamp(2rem,3.4vw,2.7rem);font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.05;
+}
+.art .art-big span{color:#b98a12}
+.art .art-small{margin-top:8px;color:var(--sub);font-size:14px;font-weight:500}
+.art-letters{background:linear-gradient(150deg,#fdf6e3 0%,#f2dfae 100%)}
+.art-speak{background:linear-gradient(150deg,#e9f2ff 0%,#c6dcfc 100%)}
+.art-paper{background:linear-gradient(160deg,#ffffff 0%,#eef1f7 100%)}
+.paper-card{
+  position:relative;width:72%;background:#fff;border:1px solid var(--hair);border-radius:10px;
+  padding:16px 16px 20px;text-align:left;
+  box-shadow:0 16px 34px rgba(10,26,56,.14);transform:rotate(-1.2deg);
+}
+.paper-q{font-size:14.5px;font-weight:600;color:var(--ink)}
+.paper-line{height:7px;border-radius:4px;background:#dfe5ef;margin-top:10px}
+.paper-line.short{width:58%}
+.paper-check{
+  position:absolute;right:12px;bottom:10px;width:26px;height:26px;border-radius:50%;
+  background:var(--gold);color:var(--gold-ink);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:700;
+}
+.prod-body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.prod-body h3{font-size:20px;letter-spacing:-.015em}
+.prod-body>p{margin-top:8px;color:var(--sub);font-size:15px;line-height:1.5}
+.prod-status{margin-top:12px!important;font-size:13.5px!important;font-weight:600;color:var(--ink)!important}
+.prod-status{margin-bottom:16px}
+.prod-btn{
+  margin-top:auto;
+  display:block;text-align:center;
+  background:#0071e3;color:#fff;font-weight:600;font-size:15.5px;
+  padding:12px 18px;border-radius:999px;
+}
+.prod-btn:hover{background:#0077ed;color:#fff;text-decoration:none}
+
+/* ---------- people: tappable cards ---------- */
+button.person{
+  font:inherit;color:inherit;text-align:inherit;
+  border:0;padding:0;cursor:pointer;width:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+button.person .photo{display:block}
+button.person .meta{display:flex}
+button.person:focus-visible{outline:3px solid var(--link);outline-offset:3px}
+.tap-hint{display:block;margin-top:8px;color:var(--link);font-size:13px;font-weight:600}
+.tap-hint::after{content:" ›"}
+.team-track .tap-hint{font-size:12.5px}
+
+/* ---------- person detail modal ---------- */
+body.modal-open{overflow:hidden}
+.person-modal{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.person-modal[hidden]{display:none}
+.pm-backdrop{
+  position:absolute;inset:0;background:rgba(9,14,26,.52);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.pm-card{
+  position:relative;background:#fff;width:min(430px,100%);
+  max-height:88vh;overflow:auto;
+  border-radius:28px 28px 0 0;padding:16px 22px 26px;
+  text-align:center;box-shadow:0 -18px 60px rgba(0,0,0,.28);
+  animation:pmUp .38s cubic-bezier(.22,.9,.3,1);
+}
+@keyframes pmUp{from{transform:translateY(46px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.pm-close{
+  position:absolute;top:12px;right:12px;z-index:2;
+  width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;
+  background:#f0f0f3;color:var(--ink);font-size:21px;line-height:1;
+}
+.pm-close:hover{background:#e4e4e9}
+.pm-photo{border-radius:20px;overflow:hidden;aspect-ratio:4/3;background:#ececf0}
+.pm-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.pm-name{margin-top:18px;font-size:25px;font-weight:700;letter-spacing:-.02em}
+.pm-role{margin-top:5px;color:var(--sub);font-size:15.5px;line-height:1.45}
+.pm-email{margin-top:12px;font-size:15px;word-break:break-all}
+.pm-actions{display:grid;gap:10px;margin-top:20px}
+.pm-btn{
+  display:block;text-align:center;border:0;cursor:pointer;font:inherit;
+  font-size:16px;font-weight:600;padding:13px 18px;border-radius:999px;
+}
+.pm-mail{background:#0071e3;color:#fff}
+.pm-mail:hover{background:#0077ed;color:#fff;text-decoration:none}
+.pm-msg{background:var(--gold);color:var(--gold-ink)}
+.pm-msg:hover{filter:brightness(1.04)}
+@media (min-width:700px){
+  .person-modal{align-items:center;padding:22px}
+  .pm-card{border-radius:28px}
+}
+
+/* ---------- responsive additions ---------- */
+@media (max-width:1080px){
+  .prod-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .tile-book{grid-template-columns:1fr}
+  .book-shot{margin-top:6px}
+}
+@media (max-width:560px){
+  .prod-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pm-card{animation:none}
+  .prod-card{transition:none}
+  .prod-card:hover{transform:none}
 }
