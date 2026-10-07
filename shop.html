@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop — Self Scale Group | Digital Products by KSM JAHID</title>
+<meta name="description" content="Digital education products by KSM JAHID, Self Scale Group: phonics books and learning materials for kids. Buy with bKash after logging in; download from My Products once payment is confirmed.">
+<meta name="theme-color" content="#0a1a38">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a1a38'/><rect x='18' y='58' width='16' height='26' rx='3' fill='%23f4c542'/><rect x='42' y='42' width='16' height='42' rx='3' fill='%23f4c542'/><rect x='66' y='24' width='16' height='60' rx='3' fill='%23f4c542'/></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="site-header">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="Self Scale Group — home">
+      <span class="brand-mark" aria-hidden="true">
+        <img class="brand-logo" src="assets/logo-original.jpg" alt="" width="42" height="42">
+      </span>
+      <span class="brand-text">Self&nbsp;Scale <b>Group</b></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <svg class="ic-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="ic-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <nav class="nav-links" id="primaryNav" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#leadership">Leadership</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#services">Services</a>
+      <a href="shop.html" aria-current="page">Shop</a>
+      <a href="index.html#account">Account</a>
+      <a href="index.html#contact" class="nav-cta">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ SHOP ============ -->
+<section class="section" id="shop" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Shop</p>
+      <h2 id="shop-title">Digital <span class="gold">products</span></h2>
+      <p class="sec-sub">Small, useful learning products written by <strong>KSM JAHID</strong>. Log in, pay by bKash, and download from <strong>My Products</strong> once your payment is confirmed. Every product is checked before it is sold.</p>
+    </div>
+    <div class="shop-grid" id="productGrid"><!-- rendered by shop.js from Supabase "products" --></div>
+    <p class="form-note" id="shopNote" role="status" aria-live="polite"></p>
+
+    <!-- ============ BUY PANEL ============ -->
+    <div class="account-card buy-panel reveal" id="buyPanel" hidden>
+      <h3 id="buyTitle">Product</h3>
+      <p class="price" id="buyPrice"></p>
+      <p id="buyLoginLink" hidden>
+        <a class="btn btn-gold" href="index.html#account">Log in or create account</a>
+      </p>
+      <div id="bkashBox">
+        <div class="field">
+          <span class="field-label" id="bkashLabel">Pay by bKash — send money to</span>
+          <p class="bkash-number" id="bkashNumber" aria-labelledby="bkashLabel">TO BE SET BY FOUNDER</p>
+        </div>
+        <div class="field">
+          <label for="trxId">bKash Trx ID</label>
+          <input id="trxId" name="trx_id" type="text" autocomplete="off" placeholder="e.g. 9HX7K2LM1P" required>
+        </div>
+        <div class="field">
+          <label for="senderNumber">Your bKash number (sender)</label>
+          <input id="senderNumber" name="sender_number" type="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required>
+        </div>
+        <div class="auth-btns">
+          <button class="btn btn-gold" type="button" id="bkashSubmit">I have paid — send order</button>
+        </div>
+        <div class="field card-box">
+          <span class="field-label">Pay by card</span>
+          <button class="btn btn-ghost" type="button" disabled>Card payment opening soon</button>
+          <p class="form-note">Card (Stripe) payments are not available in Bangladesh yet, so card payment is not open. Please use bKash.</p>
+        </div>
+      </div>
+      <p class="form-note" id="buyNote" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MY PRODUCTS ============ -->
+<section class="section alt" id="my-products" aria-labelledby="my-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">My Products</p>
+      <h2 id="my-title">Your <span class="gold">downloads</span></h2>
+      <p class="sec-sub">Products you have bought appear here after your payment is confirmed. Download links are private and expire in 5 minutes — press Download again whenever you need a fresh link.</p>
+    </div>
+    <div id="myList"></div>
+    <div id="pendingList"></div>
+    <p class="form-note" id="myNote" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <a class="brand" href="index.html" aria-label="Self Scale Group — home">
+        <span class="brand-mark" aria-hidden="true">
+          <img class="brand-logo" src="assets/logo-original.jpg" alt="" width="42" height="42">
+        </span>
+        <span class="brand-text">Self&nbsp;Scale <b>Group</b></span>
+      </a>
+      <p>AI-native company · Education, AI, software &amp; media — from Jamalpur, Bangladesh, to the world.</p>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <h3>Explore</h3>
+      <a href="index.html#about">About</a>
+      <a href="index.html#leadership">Leadership</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#services">Services</a>
+      <a href="shop.html">Shop</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="foot-contact">
+      <h3>Contact</h3>
+      <a class="mail" href="mailto:jahid.chairman.ssg@gmail.com">jahid.chairman.ssg@gmail.com</a>
+      <a class="mail" href="mailto:khalid.ceo.ssg@gmail.com">khalid.ceo.ssg@gmail.com</a>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <p>© <span id="yr">2026</span> Self Scale Group. Founded by Muhammad Jahid Hasan.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>
